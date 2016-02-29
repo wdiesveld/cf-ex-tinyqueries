@@ -1,0 +1,4 @@
+{
+    "ADMIN_EMAIL": "wouter@tinyqueries.com",
+    "PHP_EXTENSIONS": ["mbstring", "mysqli", "mcrypt", "zip", "pdo", "pdo_mysql", "curl"]
+}
