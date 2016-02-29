@@ -33,7 +33,7 @@ This is an out-of-the-box implementation of [TinyQueries PHP-libs v3.0.5] and is
   cf env <app-name>
   ```
 
-1. Follow the steps as shown in the sample application webpage to connect with the TinyQueries compile service.
+1. Follow the steps as shown on the sample application webpage to connect with the TinyQueries compile service.
   
 ### How It Works
 
