@@ -2,7 +2,7 @@
 
 This is an example application which can be run on CloudFoundry using the [PHP Build Pack].
 
-This is an out-of-the-box implementation of TinyQueries PHP-libs v3.0.5 and is meant to be used together with the TinyQueries compile service to build a REST-api by only defining queries.
+This is an out-of-the-box implementation of [TinyQueries PHP-libs v3.0.5] and is meant to be used together with the TinyQueries compile service to build a REST-api by only defining queries.
 
 ### Usage
 
@@ -43,4 +43,9 @@ When you push the application here's what happens.
 1. The server downloads the [PHP Build Pack] and runs it.  This installs HTTPD and PHP.
 1. The build pack sees the extension that we pushed and runs it.  The extension downloads the stock TinyQueries file from GitHub, unzips it and installs it into the `htdocs` directory.  It then copies the rest of the files that we pushed and replaces the default TinyQueries files with them. 
 1. At this point, the build pack is done and CF runs our droplet.
+
+[TinyQueries PHP-libs v3.0.5]:https://github.com/wdiesveld/tiny-queries-php-api/releases/tag/v3.0.5
+[PHP Build Pack]:https://github.com/dmikusa-pivotal/cf-php-build-pack
+[ClearDb]:https://www.cleardb.com/
+
 
