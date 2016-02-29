@@ -6,3 +6,5 @@ applications:
   host: my-tiny-queries-sample-app
   path: .
   buildpack: https://github.com/cloudfoundry/php-buildpack.git
+  services:
+  - my-test-mysql-db
