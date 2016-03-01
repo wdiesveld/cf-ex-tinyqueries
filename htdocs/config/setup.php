@@ -56,6 +56,8 @@ function setup()
 	if (!$r)
 		throw new \Exception("Cannot create configfile $configFile");
 	
+	/*
+	
 	if (file_exists($queriesFolder))
 		return array(
 			'message' => 'Nothing to do - Queries folder already exists'
@@ -65,6 +67,8 @@ function setup()
 	createFolder( $queriesFolder . "/interface" );
 	createFolder( $queriesFolder . "/sql" );
 	createFolder( $queriesFolder . "/tiny" );
+
+	*/
 	
 	return array(
 		'message' => 'TinyQueries setup complete'
@@ -119,33 +123,12 @@ function getEnvJson($varname)
  */
 function configTemplate()
 {
-	return '<?xml version="1.0" encoding="UTF-8"?>
-<config>
-
-	<project
-		label		= "{projectLabel}"
-	/>
-
-	<database
-		driver		= "{driver}"
-		host 		= "{host}"
-		name		= "{name}"
-		user		= "{user}"
-		password	= "{password}"
-	/>
-
-	<compiler
-		enable		= "true"
-		api_key 	= "{api_key}"
-		input		= "{queries_folder}/tiny"
-		output		= "{queries_folder}"
-	/>
+	$template = @file_get_contents( dirname(__FILE__) . '/config.template.xml' );
 	
-	<postprocessor
-		nest_fields	= "true"
-	/>
-
-</config>';
+	if (!$template)
+		throw new Exception('Cannot read config template file');
+		
+	return $template;
 }
 
 
