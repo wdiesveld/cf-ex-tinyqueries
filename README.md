@@ -19,7 +19,7 @@ This is an out-of-the-box implementation of [TinyQueries PHP-libs v3.0.5] and is
   cf create-service cleardb spark my-test-mysql-db
   ```
 
-1. Edit the manifest.yml file.  Change the 'host' attribute to something unique. Then under "services:" change "mysql-db" to the name of your MySQL service. This is the name of the service that will be bound to your application and thus available to TinyQueries.
+1. Edit the manifest.yml file.  Change the 'host' attribute to something unique. Then under "services:" change "my-test-mysql-db" to the name of your MySQL service. This is the name of the service that will be bound to your application and thus available to TinyQueries.
 
 1. Push it to CloudFoundry.
 
