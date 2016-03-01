@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+
+	<project
+		label		= "{projectLabel}"
+	/>
+
+	<database
+		driver		= "{driver}"
+		host 		= "{host}"
+		name		= "{name}"
+		user		= "{user}"
+		password	= "{password}"
+	/>
+
+	<compiler
+		enable		= "true"
+		api_key 	= "{api_key}"
+		input		= "{queries_folder}/tiny"
+		output		= "{queries_folder}"
+	/>
+	
+	<postprocessor
+		nest_fields	= "true"
+	/>
+
+</config>
