@@ -9,7 +9,6 @@ namespace TinyQueries;
 /**
  * - This functions checks if there is a config file for TinyQueries
  *   If not, it creates one based on the VCAP_SERVICES env var
- * - Creates a project folder for the queries
  *
  */
 function setup()
@@ -73,18 +72,6 @@ function getDBspecs(&$services)
 	}
 	
 	throw new \Exception("Cannot find an (appropriate) SQL database service in the VCAP_SERVICES");
-}
-
-/**
- * Creates a folder on the filesystem
- *
- */
-function createFolder($folder)
-{
-	$r = @mkdir( $folder );
-		
-	if (!$r)
-		throw new \Exception("Cannot create folder");
 }
 
 /**
