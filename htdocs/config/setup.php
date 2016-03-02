@@ -14,9 +14,8 @@ namespace TinyQueries;
  */
 function setup()
 {
-	$configFile 	= dirname(__FILE__) . '/config.xml';
-	$queriesFolder 	= dirname(__FILE__) . '/../queries';
-	
+	$configFile = dirname(__FILE__) . '/config.xml';
+
 	// If there is a configfile we are ready
 	if (file_exists($configFile))
 		return array(
@@ -48,7 +47,6 @@ function setup()
 	$template = str_replace('{name}', 			$specs['name'], 	$template);	
 	$template = str_replace('{user}', 			$specs['username'], $template);	
 	$template = str_replace('{password}', 		$specs['password'], $template);	
-	$template = str_replace('{queries_folder}', $queriesFolder, 	$template);
 	$template = str_replace('{api_key}', 		$TQapiKey, 			$template);
 	
 	$r = @file_put_contents( $configFile, $template );
