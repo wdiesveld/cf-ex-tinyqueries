@@ -56,20 +56,6 @@ function setup()
 	if (!$r)
 		throw new \Exception("Cannot create configfile $configFile");
 	
-	/*
-	
-	if (file_exists($queriesFolder))
-		return array(
-			'message' => 'Nothing to do - Queries folder already exists'
-		);;
-		
-	createFolder( $queriesFolder );
-	createFolder( $queriesFolder . "/interface" );
-	createFolder( $queriesFolder . "/sql" );
-	createFolder( $queriesFolder . "/tiny" );
-
-	*/
-	
 	return array(
 		'message' => 'TinyQueries setup complete'
 	);
