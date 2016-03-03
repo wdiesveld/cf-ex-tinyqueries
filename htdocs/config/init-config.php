@@ -91,6 +91,30 @@ function setup()
 		throw new \Exception('Received status code ' . $status . ': ' . $response[1] . $errorPublishURL);
 
 	curl_close($ch);
+	
+	// Create sample DB
+	$sql = @file_get_contents( dirname(__FILE__) . '/../../sample-db/classicmodels.v3.0.sql' );
+	
+	if (!$sql)
+		throw new Exception('Cannot read sample DB file');
+		
+	$dsn = $specs['driver'] . ":dbname=" . $specs['name'] . ";host=" . $specs['hostname'];
+	$pdo = new PDO($dsn, $specs['username'], $specs['password']);
+		
+	// throw exception for each error
+	$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+	
+	$sth = $pdo->prepare($sql);
+	
+	$r = $sth->execute();
+
+	if (!$r) 
+	{
+		$error = $sth->errorInfo();
+		if ($error && is_array($error) && count($error)>=3)
+			throw new \Exception($error[1] . " - " . $error[2]);
+		throw new \Exception('unknown error during execution of query');
+	}	
 }
 
 /**
