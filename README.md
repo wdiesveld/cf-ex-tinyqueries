@@ -33,13 +33,7 @@ This is an out-of-the-box implementation of [TinyQueries PHP-libs v3.0.5] and is
   cf push
   ```
 
-  Access your application URL in the browser. Login with the credentials for your service.  If you need to find these, just run this command and look for the VCAP_SERVICES environment variable under the `System Provided` section.
-
-  ```bash
-  cf env <app-name>
-  ```
-
-1. Follow the steps as shown on the sample application webpage to connect with the TinyQueries compile service.
+1. After the application is deployed you van access your application URL in the browser. You will find further instructions how to use TinyQueries from there.
   
 ### How It Works
 
