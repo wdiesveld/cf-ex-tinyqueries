@@ -10,6 +10,8 @@
 
 /**
  * Checks if the config file is up to date, e.g. has DB-credentials. If not, adds the credentials from the VCAP_SERVICES env var
+ * Additionally sets the TinyQueries api_key and projectLabel and sends the url of this app to the tinyqueries server
+ * to enable publishing of queries to the app.
  *
  */
 function setup()
