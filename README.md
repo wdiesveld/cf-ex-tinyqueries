@@ -51,7 +51,7 @@ When you push the application here's what happens.
 1. At this point, the build pack is done and CF runs our droplet.
 
 [TinyQueries PHP-libs v3.0.5]:https://github.com/wdiesveld/tiny-queries-php-api/releases/tag/v3.0.5
-[TinyQueries] http://www.tinyqueries.com
+[TinyQueries]:http://www.tinyqueries.com
 [PHP Build Pack]:https://github.com/dmikusa-pivotal/cf-php-build-pack
 [ClearDb]:https://www.cleardb.com/
 
