@@ -30,7 +30,8 @@ function setup()
 	$services 		= getEnvJson("VCAP_SERVICES");
 	$application 	= getEnvJson("VCAP_APPLICATION");
 	
-	$specs = getDBspecs($services);
+	$specs 	= getDBspecs($services);
+	$tqcred = getTQspecs($services);
 
 	$config = str_replace('{driver}', 	$specs['driver'], 	$config);	
 	$config = str_replace('{host}', 	$specs['hostname'], $config);	
@@ -38,23 +39,35 @@ function setup()
 	$config = str_replace('{user}', 	$specs['username'], $config);	
 	$config = str_replace('{password}', $specs['password'], $config);	
 	
+	$config = str_replace('{api_key}', 		$tqcred['api_key'], 		$config);	
+	$config = str_replace('{projectLabel}', $tqcred['projectLabel'], 	$config);	
+	
 	$r = @file_put_contents( $configFile, $config );
 	
 	if (!$r)
 		throw new \Exception("Cannot write configfile $configFile");
 		
-	// Send the DB credentials to TQ
-	/*
+	$errorPublishURL = ' - you need to set publish-URL in TinyQueries manually';
+		
+	// Add publish_url which is needed for the TQ IDE to know where to publish the queries	
+	if (!array_key_exists('uris', $application))
+		throw new \Exception('Application URI not found' . $errorPublishURL);
+		
+	$protocol = (!array_key_exists('HTTPS', $_SERVER) || !$_SERVER['HTTPS']) ? 'http://' : 'https://';
+	$specs['activeBinding']['publish_url'] 	= $protocol . $application['uris'][0] . '/api/';	
+	$specs['activeBinding']['label']		= $tqcred['bindingLabel'];
+		
+	// Send the publish_url and DB credentials to TQ
 	$ch = curl_init();
 
 	if (!$ch) 
-		throw new \Exception( 'Cannot initialize curl' );
+		throw new \Exception( 'Cannot initialize curl' . $errorPublishURL );
 		
 	curl_setopt($ch, CURLOPT_HEADER, true); 		// Return the headers
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);	// Return the actual reponse as string
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
 	curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($specs));
-	curl_setopt($ch, CURLOPT_URL, 'https://compiler1.tinyqueries.com/api/clients/projects/' . $projectLabel . '/?api_key=' . $TQapiKey);
+	curl_setopt($ch, CURLOPT_URL, 'https://compiler1.tinyqueries.com/api/clients/projects/' . $tqcred['projectLabel'] . '/?api_key=' . $tqcred['api_key']);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); // nodig omdat er anders een ssl-error is; waarschijnlijk moet er een intermediate certificaat aan curl worden gevoed.
 	curl_setopt($ch, CURLOPT_HTTPHEADER,array('Expect:')); // To disable status 100 response 
 	
@@ -62,7 +75,7 @@ function setup()
 	$raw_data = curl_exec($ch); 
 	
 	if ($raw_data === false) 
-		throw new \Exception('Did not receive a response from tinyqueries.com');
+		throw new \Exception('Did not receive a response from tinyqueries.com' . $errorPublishURL );
 	
 	// Split the headers from the actual response
 	$response = explode("\r\n\r\n", $raw_data, 2);
@@ -73,14 +86,9 @@ function setup()
 		$status = intval($matches[1]);
 
 	if ($status != 200)
-		throw new \Exception('Received status code ' . $status . ': ' . $response[1]);
+		throw new \Exception('Received status code ' . $status . ': ' . $response[1] . $errorPublishURL);
 
 	curl_close($ch);
-	*/		
-	
-	return array(
-		'message' => 'TinyQueries setup complete'
-	);
 }
 
 /**
@@ -100,7 +108,19 @@ function getDBspecs(&$services)
 		}
 	}
 	
-	throw new \Exception("Cannot find an (appropriate) SQL database service in the VCAP_SERVICES");
+	throw new \Exception("Cannot find an (appropriate) SQL database service in VCAP_SERVICES");
+}
+
+/**
+ * Fetch TinyQueries credentials from env var
+ *
+ */
+function getTQspecs(&$services)
+{
+	if (!array_key_exists('tinyqueries', $services))
+		throw new \Exception("Cannot find an TinyQueries credentials in VCAP_SERVICES");
+		
+	return $services['tinyqueries'][0]['credentials'];
 }
 
 /**
