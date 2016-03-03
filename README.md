@@ -25,7 +25,7 @@ This is an out-of-the-box implementation of [TinyQueries PHP-libs v3.0.5] and is
   cf create-service tinyqueries free my-test-tinyqueries-project
   ```
 
-1. Edit the manifest.yml file.  Change the 'host' attribute to something unique. Then under "services:" change "my-test-mysql-db" to the name of your MySQL service. This is the name of the service that will be bound to your application and thus available to TinyQueries. Do the same for "my-test-tinyqueries-project"
+1. Edit the manifest.yml file.  Change the 'host' attribute to something unique. Then under "services:" change "my-test-mysql-db" to the name of your MySQL service. This is the name of the service that will be bound to your application and thus available to this application. Do the same for "my-test-tinyqueries-project"
 
 1. Push it to CloudFoundry.
 
