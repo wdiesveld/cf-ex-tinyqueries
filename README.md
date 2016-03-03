@@ -19,7 +19,13 @@ This is an out-of-the-box implementation of [TinyQueries PHP-libs v3.0.5] and is
   cf create-service cleardb spark my-test-mysql-db
   ```
 
-1. Edit the manifest.yml file.  Change the 'host' attribute to something unique. Then under "services:" change "my-test-mysql-db" to the name of your MySQL service. This is the name of the service that will be bound to your application and thus available to TinyQueries.
+1. If you don't have one already, create a TinyQueries project. With Pivotal Web Services, the following command will create a free TinyQueries project through [TinyQueries].
+
+  ```bash
+  cf create-service tinyqueries free my-test-tinyqueries-project
+  ```
+
+1. Edit the manifest.yml file.  Change the 'host' attribute to something unique. Then under "services:" change "my-test-mysql-db" to the name of your MySQL service. This is the name of the service that will be bound to your application and thus available to TinyQueries. Do the same for "my-test-tinyqueries-project"
 
 1. Push it to CloudFoundry.
 
@@ -45,6 +51,7 @@ When you push the application here's what happens.
 1. At this point, the build pack is done and CF runs our droplet.
 
 [TinyQueries PHP-libs v3.0.5]:https://github.com/wdiesveld/tiny-queries-php-api/releases/tag/v3.0.5
+[TinyQueries] http://www.tinyqueries.com
 [PHP Build Pack]:https://github.com/dmikusa-pivotal/cf-php-build-pack
 [ClearDb]:https://www.cleardb.com/
 

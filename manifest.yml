@@ -8,3 +8,4 @@ applications:
   buildpack: https://github.com/cloudfoundry/php-buildpack.git
   services:
   - my-test-mysql-db
+  - my-test-tinyqueries-project
