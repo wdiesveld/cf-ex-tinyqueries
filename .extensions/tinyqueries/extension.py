@@ -23,7 +23,7 @@ DEFAULTS = utils.FormattedDict({
 def preprocess_commands(ctx):
 	# This will set the DB-credentials in config/config.xml
 	ctx['ADDITIONAL_PREPROCESS_CMDS'] = [
-		'php $HOME/' + ctx['WEBDIR'] + '/config/setup.php',
+		'php $HOME/' + ctx['WEBDIR'] + '/config/init-config.php',
 	]
 	return {}
 
