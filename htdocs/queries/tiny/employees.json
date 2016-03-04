@@ -17,6 +17,12 @@
       "as": "lastName",
       "field": "this.lastName",
       "type": "string"
+    },
+    {
+      "as": "customers.orders.count",
+      "field": "count( distinct this.customers.orders.orderNumber )",
+      "type": "int",
+      "aggregate": true
     }
   ],
   "from": "employees",
@@ -25,6 +31,11 @@
   "groupBy": [
     "this.employeeNumber"
   ],
-  "orderBy": [],
+  "orderBy": [
+    {
+      "field": "count( distinct this.customers.orders.orderNumber )",
+      "order": "desc"
+    }
+  ],
   "limit": 100
 }
