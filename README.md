@@ -33,7 +33,7 @@ This is an out-of-the-box implementation of [TinyQueries PHP-libs v3.0.6] and is
   cf push
   ```
 
-1. After the application is deployed you van access your application URL in the browser. You will find further instructions how to use TinyQueries from there.
+1. After the application is deployed you can access your application URL in the browser. You will find further instructions how to use TinyQueries from there.
   
 ### How It Works
 
