@@ -16,6 +16,28 @@
  */
 function setup()
 {
+	// Get credentials from Bluemix env var and app var
+	$services 		= getEnvJson("VCAP_SERVICES");
+	$application 	= getEnvJson("VCAP_APPLICATION");
+	$dbcred 		= getDBcred($services);
+	$tqcred 		= getTQcred($services);
+	
+	// Initializes config.xml
+	initConfigFile($dbcred, $tqcred);
+		
+	// Send the publish_url to TQ
+	sendPublishUrl($tqcred, $application);
+	
+	// Initialize the sample database
+	initSampleDB($dbcred);
+}
+
+/**
+ * Initializes config.xml
+ *
+ */
+function initConfigFile($dbcred, $tqcred)
+{
 	// Read config file
 	$configFile = dirname(__FILE__) . '/config.xml';
 
@@ -28,18 +50,12 @@ function setup()
 	if (strpos($config, '{driver}') === false)
 		return;
 
-	// Get credentials from Bluemix env var and app var
-	$services 		= getEnvJson("VCAP_SERVICES");
-	$application 	= getEnvJson("VCAP_APPLICATION");
-	
-	$specs 	= getDBspecs($services);
-	$tqcred = getTQspecs($services);
-
-	$config = str_replace('{driver}', 	$specs['driver'], 	$config);	
-	$config = str_replace('{host}', 	$specs['hostname'], $config);	
-	$config = str_replace('{name}', 	$specs['name'], 	$config);	
-	$config = str_replace('{user}', 	$specs['username'], $config);	
-	$config = str_replace('{password}', $specs['password'], $config);	
+	// Fill in template vars
+	$config = str_replace('{driver}', 	$dbcred['driver'], 	$config);	
+	$config = str_replace('{host}', 	$dbcred['hostname'], $config);	
+	$config = str_replace('{name}', 	$dbcred['name'], 	$config);	
+	$config = str_replace('{user}', 	$dbcred['username'], $config);	
+	$config = str_replace('{password}', $dbcred['password'], $config);	
 	
 	$config = str_replace('{api_key}', 		$tqcred['api_key'], 		$config);	
 	$config = str_replace('{projectLabel}', $tqcred['projectLabel'], 	$config);	
@@ -48,27 +64,38 @@ function setup()
 	
 	if (!$r)
 		throw new \Exception("Cannot write configfile $configFile");
-		
+}
+
+/**
+ * Uses curl to send the url of this app to the tinyqueries server
+ *
+ */
+function sendPublishUrl($tqcred, $application)
+{
 	$errorPublishURL = ' - you need to set publish-URL in TinyQueries manually';
 		
 	// Add publish_url which is needed for the TQ IDE to know where to publish the queries	
 	if (!array_key_exists('uris', $application))
 		throw new \Exception('Application URI not found' . $errorPublishURL);
+	
+	// This will be sent to tinyqueries
+	$curlBody = array();	
 		
 	$protocol = (!array_key_exists('HTTPS', $_SERVER) || !$_SERVER['HTTPS']) ? 'http://' : 'https://';
-	$specs['activeBinding']['publish_url'] 	= $protocol . $application['uris'][0] . '/api/';	
-	$specs['activeBinding']['label']		= $tqcred['bindingLabel'];
+	$curlBody['activeBinding']['publish_url']	= $protocol . $application['uris'][0] . '/api/';	
+	$curlBody['activeBinding']['label']			= $tqcred['bindingLabel'];
 		
-	// Send the publish_url and DB credentials to TQ
+	// Init curl
 	$ch = curl_init();
 
 	if (!$ch) 
 		throw new \Exception( 'Cannot initialize curl' . $errorPublishURL );
 		
+	// Set options
 	curl_setopt($ch, CURLOPT_HEADER, true); 		// Return the headers
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);	// Return the actual reponse as string
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-	curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($specs));
+	curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($curlBody));
 	curl_setopt($ch, CURLOPT_URL, 'https://compiler1.tinyqueries.com/api/clients/projects/' . $tqcred['projectLabel'] . '/?api_key=' . $tqcred['api_key']);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); // nodig omdat er anders een ssl-error is; waarschijnlijk moet er een intermediate certificaat aan curl worden gevoed.
 	curl_setopt($ch, CURLOPT_HTTPHEADER,array('Expect:')); // To disable status 100 response 
@@ -91,15 +118,22 @@ function setup()
 		throw new \Exception('Received status code ' . $status . ': ' . $response[1] . $errorPublishURL);
 
 	curl_close($ch);
-	
-	// Create sample DB
+}
+
+/**
+ * Sets up a sample database
+ *
+ * @param assoc $dbcred The DB credentials 
+ */
+function initSampleDB($dbcred)
+{
 	$sql = @file_get_contents( dirname(__FILE__) . '/../../sample-db/classicmodels.v3.0.sql' );
 	
 	if (!$sql)
 		throw new Exception('Cannot read sample DB file');
 		
-	$dsn = $specs['driver'] . ":dbname=" . $specs['name'] . ";host=" . $specs['hostname'];
-	$pdo = new PDO($dsn, $specs['username'], $specs['password']);
+	$dsn = $dbcred['driver'] . ":dbname=" . $dbcred['name'] . ";host=" . $dbcred['hostname'];
+	$pdo = new PDO($dsn, $dbcred['username'], $dbcred['password']);
 		
 	// throw exception for each error
 	$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
@@ -121,16 +155,16 @@ function setup()
  * Fetch DB credentials from env var
  *
  */
-function getDBspecs(&$services)
+function getDBcred(&$services)
 {
 	foreach ($services as $id => $service)
 	{
 		switch ($id)
 		{
 			case 'cleardb': 
-				$specs = $service[0]['credentials'];
-				$specs['driver'] = 'mysql';
-				return $specs;
+				$dbcred = $service[0]['credentials'];
+				$dbcred['driver'] = 'mysql';
+				return $dbcred;
 		}
 	}
 	
@@ -141,7 +175,7 @@ function getDBspecs(&$services)
  * Fetch TinyQueries credentials from env var
  *
  */
-function getTQspecs(&$services)
+function getTQcred(&$services)
 {
 	if (!array_key_exists('tinyqueries', $services))
 		throw new \Exception("Cannot find an TinyQueries credentials in VCAP_SERVICES");
