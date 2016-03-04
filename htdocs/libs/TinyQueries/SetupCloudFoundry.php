@@ -1,16 +1,16 @@
 <?php
 /**
- * This module can be used to setup TinyQueries in a Bluemix environment
+ * This module can be used to setup TinyQueries in a CloudFoundry environment
  *
  * usage:
  *
- * 		TinyQueries\SetupBluemix::run();
+ * 		TinyQueries\SetupCloudFoundry::run();
  *
  * @author wouter@tinyqueries.com
  */
 namespace TinyQueries;
 
-class SetupBluemix
+class SetupCloudFoundry
 {
 	/**
 	 * Runs the setup:
@@ -22,7 +22,7 @@ class SetupBluemix
 	 */
 	public static function run()
 	{
-		// Get credentials from Bluemix env var and app var
+		// Get credentials from CloudFoundry env var and app var
 		$services 		= self::getEnvJson("VCAP_SERVICES");
 		$application 	= self::getEnvJson("VCAP_APPLICATION");
 		$dbcred 		= self::getDBcred($services);

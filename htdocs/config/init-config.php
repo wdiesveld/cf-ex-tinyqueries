@@ -7,18 +7,18 @@
  * @author wouter@tinyqueries.com
  */
  
-require_once( dirname(__FILE__) . '/../libs/TinyQueries/SetupBluemix.php' );
+require_once( dirname(__FILE__) . '/../libs/TinyQueries/SetupCloudFoundry.php' );
 require_once( dirname(__FILE__) . '/../libs/TinyQueries/TinyQueries.php' );
 
 /**
- * Runs the setup for Bluemix (see class SetupBluemix).
+ * Runs the setup for CloudFoundry (see class SetupCloudFoundry).
  * Additionally initializes a sample database and compiles the sample tinyqueries project.
  *
  */
 function setup()
 {
-	// Run Bluemix setup
-	list($dbcred, $tqcred) = TinyQueries\SetupBluemix::run();
+	// Run CloudFoundry setup
+	list($dbcred, $tqcred) = TinyQueries\SetupCloudFoundry::run();
 	
 	// Initialize the sample database
 	initSampleDB($dbcred);
