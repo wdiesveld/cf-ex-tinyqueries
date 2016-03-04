@@ -20,7 +20,8 @@ $appUrl = 'http://' . $_SERVER["SERVER_NAME"];
 	<h1>Welcome to the TinyQueries Sample App</h1>
 	
 	<p>
-		TinyQueries is ready to be used. If the setup has finished properly you should see two bar-charts below.
+		TinyQueries is ready to be used. If the setup has finished properly you should see two bar-charts below. 
+		If this is not the case check the Logs section in Bluemix and look for a message 'Error during setup TinyQueries' to find out what went wrong.
 	</p>
 	
 	<h2>What does this app do?</h2>
@@ -31,6 +32,7 @@ $appUrl = 'http://' . $_SERVER["SERVER_NAME"];
 		There are two end points: <code>/api/offices</code> and <code>/api/employees</code>. 
 		The graphs below visualize the data coming out of these two end points.
 		The end points can be edited using the online TinyQueries IDE which you can access through your Bluemix dashboard.
+		The data is coming from a the <a href="http://www.mysqltutorial.org/mysql-sample-database.aspx" target="_blank">Classic Models database</a>, which was intialized during setup on a ClearDB MySQL instance.
 	</p>
 	
 	
