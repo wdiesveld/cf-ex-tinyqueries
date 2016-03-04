@@ -13,7 +13,7 @@ This is an out-of-the-box implementation of [TinyQueries PHP-libs v3.0.5] and is
   cd cf-ex-tinyqueries
   ```
 
-1. If you don't have one already, create a MySQL service. With Pivotal Web Services, the following command will create a free MySQL database through [ClearDb]. Note that a sample database will be installed so it's best to use an empty database.
+1. If you don't have one already, create a MySQL service. With Pivotal Web Services, the following command will create a free MySQL database through [ClearDb]. Note that a [sample database] will be installed so it's best to use an empty database.
 
   ```bash
   cf create-service cleardb spark my-test-mysql-db
@@ -48,5 +48,5 @@ When you push the application here's what happens.
 [TinyQueries]:http://www.tinyqueries.com
 [PHP Build Pack]:https://github.com/dmikusa-pivotal/cf-php-build-pack
 [ClearDb]:https://www.cleardb.com/
-
+[sample database]:http://www.mysqltutorial.org/mysql-sample-database.aspx
 
