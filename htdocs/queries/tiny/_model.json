@@ -1,0 +1,42 @@
+{
+	"customers": {
+	    
+	    "orders":       { join: "left", table: "orders", key: "customerNumber" },
+	    "payments":     { join: "left", table: "payments", key: "customerNumber" },
+	    "salesRep":     { join: "left", table: "employees", on: "this.salesRepEmployeeNumber = that.EmployeeNumber", type: "single" }
+	},
+	
+	"employees": {
+	    
+	    "customers":    { join: "left", table: "customers", on: "that.salesRepEmployeeNumber = this.EmployeeNumber" },
+	    "office":       { join: "inner", table: "offices", key: "officeCode", type: "single" }
+	    
+	},
+
+	"offices": {
+	    "employees":    { join: "left", table: "employees", key: "officeCode" }
+	},
+	
+	"orderdetails": {
+	    "order":        { join: "inner", table: "orders",   key: "orderNumber", type: "single" },
+	    "product":      { join: "inner", table: "products", key: "productCode", type: "single" }
+	},
+	
+	"orders": {
+	    "customer":     { join: "inner", table: "customers", key: "customerNumber", type: "single" },
+	    "orderdetails": { join: "left", table: "orders", key: "orderNumber" }
+	},
+	
+	"payments": {
+	    "customer":     { join: "inner", table: "customers", key: "customerNumber", type: "single" }
+	},
+	
+	"productlines": {
+	    "products":     { join: "left", table: "products", key: "productLine" }
+	},
+	
+	"products": {
+	    "orderdetails": { join: "left", table: "orderdetails", key: "productCode" },
+	    "productline":  { join: "inner", table: "productlines", key: "productLine", type: "single" }
+	}
+}

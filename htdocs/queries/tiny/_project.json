@@ -1,0 +1,10 @@
+/**
+ * Project settings
+ *
+ */
+{
+	id: "my-project-id",
+	
+	globals: {
+	}
+}

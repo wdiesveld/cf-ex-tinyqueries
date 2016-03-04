@@ -1,0 +1,26 @@
+{
+  "output": {
+    "nested": false
+  },
+  "select": [
+    {
+      "as": "city",
+      "field": "this.city",
+      "type": "string"
+    },
+    {
+      "as": "employees.count",
+      "field": "count( distinct this.employees.employeeNumber )",
+      "type": "int",
+      "aggregate": true
+    }
+  ],
+  "from": "offices",
+  "where": {},
+  "having": {},
+  "groupBy": [
+    "this.officeCode"
+  ],
+  "orderBy": [],
+  "limit": 100
+}

@@ -1,0 +1,30 @@
+{
+  "output": {
+    "nested": false
+  },
+  "select": [
+    {
+      "as": "employeeNumber",
+      "field": "this.employeeNumber",
+      "type": "int"
+    },
+    {
+      "as": "firstName",
+      "field": "this.firstName",
+      "type": "string"
+    },
+    {
+      "as": "lastName",
+      "field": "this.lastName",
+      "type": "string"
+    }
+  ],
+  "from": "employees",
+  "where": {},
+  "having": {},
+  "groupBy": [
+    "this.employeeNumber"
+  ],
+  "orderBy": [],
+  "limit": 100
+}
