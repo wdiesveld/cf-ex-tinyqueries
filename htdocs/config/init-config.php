@@ -30,6 +30,9 @@ function setup()
 	
 	// Initialize the sample database
 	initSampleDB($dbcred);
+	
+	// Ensure the sample TQ project is ready to be used
+	compileSampleProject();
 }
 
 /**
@@ -149,6 +152,20 @@ function initSampleDB($dbcred)
 			throw new \Exception($error[1] . " - " . $error[2]);
 		throw new \Exception('unknown error during execution of query');
 	}	
+}
+
+/**
+ * Ensure the sample TQ project is ready to be used
+ *
+ */
+function compileSampleProject()
+{
+	require_once( dirname(__FILE__) . '/../libs/TinyQueries/TinyQueries.php' );
+	
+	$configFile = dirname(__FILE__) . '/config.xml';
+	$compiler 	= new TinyQueries\Compiler( $configFile );
+	
+	$compiler->compile();
 }
 
 /**
