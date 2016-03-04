@@ -16,8 +16,8 @@
 	<compiler
 		enable		= "true"
 		api_key 	= "{api_key}"
-		input		= "../queries/tiny"
-		output		= "../queries"
+		input		= "../../queries/tiny"
+		output		= "../../queries"
 	/>
 	
 	<postprocessor
