@@ -12,7 +12,7 @@ _log = logging.getLogger('tiny-queries')
 
 
 DEFAULTS = utils.FormattedDict({
-    'TINYQUERIES_VERSION': '3.0.6',
+    'TINYQUERIES_VERSION': '3.0.6.1',
     'TINYQUERIES_PACKAGE': 'v{TINYQUERIES_VERSION}.tar.gz',
     'TINYQUERIES_HASH': 'dummy',
     'TINYQUERIES_URL': 'https://github.com/wdiesveld/tiny-queries-php-api/archive/{TINYQUERIES_PACKAGE}'

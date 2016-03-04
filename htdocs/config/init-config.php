@@ -85,7 +85,7 @@ function sendPublishUrl($tqcred, $application)
 	$curlBody = array();	
 		
 	$protocol = (!array_key_exists('HTTPS', $_SERVER) || !$_SERVER['HTTPS']) ? 'http://' : 'https://';
-	$curlBody['activeBinding']['publish_url']	= $protocol . $application['uris'][0] . '/api/';	
+	$curlBody['activeBinding']['publish_url']	= $protocol . $application['uris'][0] . '/admin/';	
 	$curlBody['activeBinding']['label']			= $tqcred['bindingLabel'];
 		
 	// Init curl
