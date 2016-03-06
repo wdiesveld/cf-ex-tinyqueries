@@ -126,6 +126,34 @@ class SetupCloudFoundry
 	}
 	
 	/**
+	 * Converts an db URI to credentials
+	 *
+	 * example:
+	 * postgres://[username]:[password]@[host]:[port]/[databasename]
+	 */
+	public static function dbUriToCredentials($uri)
+	{
+		$cred = array();
+		
+		list($uri,$params)							= explode('?', $uri);
+		list($database, $uri) 						= explode('://', $uri);
+		list($uri, $cred['name']) 					= explode('/', $uri);
+		list($cred['username'],$uri,$cred['port']) 	= explode(':', $uri);
+		list($cred['password'],$cred['hostname']) 	= explode('@', $uri);
+		
+		switch ($database)
+		{
+			// 'driver' is the name of the driver for PDO
+			case 'postgres': 	$cred['driver'] = 'pgsql'; 	break;
+			case 'mysql':		$cred['driver'] = 'mysql'; 	break;
+			case 'db2':			$cred['driver'] = 'ibm';	break;
+			default: throw new Exception('unknown database driver');
+		}
+		
+		return $cred;
+	}
+	
+	/**
 	 * Fetch DB credentials from env var
 	 *
 	 */
@@ -136,9 +164,9 @@ class SetupCloudFoundry
 			switch ($id)
 			{
 				case 'cleardb': 
-					$dbcred = $service[0]['credentials'];
-					$dbcred['driver'] = 'mysql';
-					return $dbcred;
+				case 'sqldb':
+				case 'elephantsql':
+					return self::dbUriToCredentials( $service[0]['credentials']['uri'] );
 			}
 		}
 		
