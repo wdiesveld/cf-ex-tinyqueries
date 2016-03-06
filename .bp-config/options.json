@@ -1,4 +1,4 @@
 {
     "ADMIN_EMAIL": "your@mail.address",
-    "PHP_EXTENSIONS": ["mbstring", "mysqli", "mcrypt", "zip", "pdo", "pdo_mysql", "curl"]
+    "PHP_EXTENSIONS": ["mbstring", "mcrypt", "zip", "pdo", "pdo_mysql", "curl"]
 }
