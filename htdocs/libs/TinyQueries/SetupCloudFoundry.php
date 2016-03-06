@@ -56,11 +56,12 @@ class SetupCloudFoundry
 			return;
 
 		// Fill in template vars
-		$config = str_replace('{driver}', 	$dbcred['driver'], 	$config);	
-		$config = str_replace('{host}', 	$dbcred['hostname'], $config);	
-		$config = str_replace('{name}', 	$dbcred['name'], 	$config);	
-		$config = str_replace('{user}', 	$dbcred['username'], $config);	
-		$config = str_replace('{password}', $dbcred['password'], $config);	
+		$config = str_replace('{driver}', 	$dbcred['driver'], 		$config);	
+		$config = str_replace('{host}', 	$dbcred['hostname'], 	$config);	
+		$config = str_replace('{port}', 	$dbcred['port'], 		$config);	
+		$config = str_replace('{name}', 	$dbcred['name'], 		$config);	
+		$config = str_replace('{user}', 	$dbcred['username'], 	$config);	
+		$config = str_replace('{password}', $dbcred['password'], 	$config);	
 		
 		$config = str_replace('{api_key}', 		$tqcred['api_key'], 		$config);	
 		$config = str_replace('{projectLabel}', $tqcred['projectLabel'], 	$config);	

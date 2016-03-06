@@ -8,6 +8,7 @@
 	<database
 		driver		= "{driver}"
 		host 		= "{host}"
+		port 		= "{port}"
 		name		= "{name}"
 		user		= "{user}"
 		password	= "{password}"
