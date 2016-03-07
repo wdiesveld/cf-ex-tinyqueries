@@ -32,7 +32,7 @@ class SetupCloudFoundry
 		self::initConfigFile($dbcred, $tqcred);
 			
 		// Send the publish_url to TQ
-		self::sendPublishUrl($tqcred, $application);
+		self::sendPublishUrl($tqcred, $application, $dbcred['database']);
 		
 		return array( $dbcred, $tqcred );
 	}
@@ -76,7 +76,7 @@ class SetupCloudFoundry
 	 * Uses curl to send the url of this app to the tinyqueries server
 	 *
 	 */
-	public static function sendPublishUrl($tqcred, $application)
+	public static function sendPublishUrl($tqcred, $application, $database)
 	{
 		$errorPublishURL = ' - you need to set publish-URL in TinyQueries manually';
 			
@@ -90,6 +90,7 @@ class SetupCloudFoundry
 		$protocol = (!array_key_exists('HTTPS', $_SERVER) || !$_SERVER['HTTPS']) ? 'http://' : 'https://';
 		$curlBody['activeBinding']['publish_url']	= $protocol . $application['uris'][0] . '/admin/';	
 		$curlBody['activeBinding']['label']			= $tqcred['bindingLabel'];
+		$curlBody['database']						= $database;
 			
 		// Init curl
 		$ch = curl_init();
@@ -137,18 +138,18 @@ class SetupCloudFoundry
 		$cred = array();
 		
 		list($uri,$params)							= explode('?', $uri);
-		list($database, $uri) 						= explode('://', $uri);
+		list($cred['database'], $uri) 				= explode('://', $uri);
 		list($uri, $cred['name']) 					= explode('/', $uri);
 		list($cred['username'],$uri,$cred['port']) 	= explode(':', $uri);
 		list($cred['password'],$cred['hostname']) 	= explode('@', $uri);
 		
-		switch ($database)
+		switch ($cred['database'])
 		{
 			// 'driver' is the name of the driver for PDO
 			case 'postgres': 	$cred['driver'] = 'pgsql'; 	break;
 			case 'mysql':		$cred['driver'] = 'mysql'; 	break;
 			case 'db2':			$cred['driver'] = 'ibm';	break;
-			default: throw new Exception('unknown database driver');
+			default: throw new Exception('No driver known for database ' . $cred['database']);
 		}
 		
 		return $cred;
