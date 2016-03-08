@@ -79,7 +79,10 @@ class SetupCloudFoundry
 	public static function sendPublishUrl($tqcred, $application, $database)
 	{
 		$errorPublishURL = ' - you need to set publish-URL in TinyQueries manually';
-			
+	
+		if (!function_exists('curl_init'))
+			throw new \Exception('curl extension for PHP is not installed - you cannot use the publish function of TinyQueries IDE');
+		
 		// Add publish_url which is needed for the TQ IDE to know where to publish the queries	
 		if (!array_key_exists('uris', $application))
 			throw new \Exception('Application URI not found' . $errorPublishURL);
