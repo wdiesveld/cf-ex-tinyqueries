@@ -12,7 +12,7 @@ _log = logging.getLogger('tiny-queries')
 
 
 DEFAULTS = utils.FormattedDict({
-    'TINYQUERIES_VERSION': '3.0.7a',
+    'TINYQUERIES_VERSION': '3.0.7.1',
     'TINYQUERIES_PACKAGE': 'v{TINYQUERIES_VERSION}.tar.gz',
     'TINYQUERIES_HASH': 'dummy',
     'TINYQUERIES_URL': 'https://github.com/wdiesveld/tiny-queries-php-api/archive/{TINYQUERIES_PACKAGE}'
@@ -21,9 +21,9 @@ DEFAULTS = utils.FormattedDict({
 
 # Extension Methods
 def preprocess_commands(ctx):
-	# This will set the DB-credentials in config/config.xml
+	# This will set the DB-credentials in api/config/config.xml
 	ctx['ADDITIONAL_PREPROCESS_CMDS'] = [
-		'php $HOME/' + ctx['WEBDIR'] + '/config/init-config.php',
+		'php $HOME/' + ctx['WEBDIR'] + '/api/config/init-config.php',
 	]
 	return {}
 
@@ -49,7 +49,7 @@ def compile(install):
     (install.builder
         .move()
         .everything()
-        .under('{BUILD_DIR}/htdocs')
+        .under('{BUILD_DIR}/htdocs/api')
         .into(workDir)
         .done())
     (install.builder
@@ -57,6 +57,6 @@ def compile(install):
         .everything()
         .under(workDir)
         .where_name_does_not_match('^%s/setup/.*$' % workDir)
-        .into('{BUILD_DIR}/htdocs')
+        .into('{BUILD_DIR}/htdocs/api')
         .done())
     return 0

@@ -34,7 +34,7 @@ function setup()
  */
 function initSampleDB($dbcred)
 {
-	$sql = @file_get_contents( dirname(__FILE__) . '/../../sample-db/classicmodels.v3.0.sql' );
+	$sql = @file_get_contents( dirname(__FILE__) . '/../../../sample-db/classicmodels.v3.0.sql' );
 	
 	if (!$sql)
 		throw new Exception('Cannot read sample DB file');
