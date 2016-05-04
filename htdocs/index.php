@@ -63,7 +63,7 @@ $appUrl = 'http://' . $_SERVER["SERVER_NAME"];
 		<li>Open TinyQueries in the Bluemix dashboard</li>
 		<li>Click on 'start creating queries'</li>
 		<li>Go to the Config tab</li>
-		<li>Ensure that in the publish section this URL <code><?php echo $appUrl; ?>/admin/</code> is set (if not you can add it manually)</li>
+		<li>Ensure that in the publish section this URL <code><?php echo $appUrl; ?>/api/</code> is set (if not you can add it manually)</li>
 		<li>Click on the query 'employees' to the left</li>
 		<li>Click on the tab 'Sheet'</li>
 		<li>Click 'Add filter'</li>
